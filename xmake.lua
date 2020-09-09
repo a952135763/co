@@ -23,7 +23,14 @@ end
 
 if is_plat("windows") then
     --add_cxflags("-Ox", "-fp:fast", "-EHsc")
-    add_cxflags("-MD", "-EHsc")
+	if is_mode("debug") then
+        add_cxflags("-MTd", "-EHsc")
+        add_defines("_ITERATOR_DEBUG_LEVEL=0")
+		set_symbols("debug")
+	elseif is_mode("release") then
+		add_cxflags("-MT", "-EHsc")
+		set_symbols("hidden")
+	end
 end
 
 
